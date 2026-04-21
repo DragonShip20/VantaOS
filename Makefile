@@ -9,10 +9,10 @@ IMG=disk.img
 CFLAGS=-m32 -ffreestanding -nostdlib -fno-pie -Iinclude
 LDFLAGS=-m elf_i386 -T linker.ld
 
-C_SOURCES := $(shell find kernel -name "*.c")
+C_SOURCES := $(shell find kernel boot/arch drivers interrupts lib memory -name "*.c")
 C_OBJECTS := $(C_SOURCES:.c=.o)
 
-ASM_SOURCES := $(shell find kernel -name "*.asm")
+ASM_SOURCES := $(shell find boot/arch -name "*.asm")
 ASM_OBJECTS := $(ASM_SOURCES:.asm=.o)
 
 OBJECTS := $(C_OBJECTS) $(ASM_OBJECTS)
