@@ -15,5 +15,6 @@ typedef struct {
 
 void render(void);
 void out_char(u8 c);
+void upd_cursor(u32 x, u32 y);
 
 #endif

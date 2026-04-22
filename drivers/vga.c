@@ -13,14 +13,22 @@ void render(void) {
     for (int i=0; i< (WIDTH * HEIGHT); i++) {
             vga[i] = screen[i].c | (screen[i].color << 8);
     }
-
-    u16 index = (cursor_pos.y * 80 + cursor_pos.x);
     return;
 }
 
 void out_char(u8 c) {
-    u32 index = (cursor_pos.y * 80) + cursor_pos.x;
+    u32 index = (cursor_pos.y * WIDTH) + cursor_pos.x;
     screen[index].c = c;
     screen[index].color = 0x0F;
+    return;
+}
+
+void upd_cursor(u32 x, u32 y) {
+    cursor_pos.x += x;
+    if (cursor_pos.x >= WIDTH) {
+        cursor_pos.y += (cursor_pos.x / WIDTH);
+        cursor_pos.x %= WIDTH;
+    }
+    cursor_pos.y += y;
     return;
 }

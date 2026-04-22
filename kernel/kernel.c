@@ -8,10 +8,9 @@ void kernel_main() {
 
     init_idt();
 
-    out_char('A');
-    cursor_pos.x += 1;
-    out_char('B');
+    upd_cursor(2, 1);
+    out_char('a');
     render();
-
+    
     while (1);
 }
