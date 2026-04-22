@@ -8,8 +8,17 @@ void kernel_main() {
 
     init_idt();
 
-    upd_cursor(2, 1);
-    out_char('a');
+    out_char('W');
+    upd_cursor(1, 0);
+    out_char('o');
+    upd_cursor(1, 0);
+    out_char('r');
+    upd_cursor(1, 0);
+    out_char('k');
+    upd_cursor(1, 0);
+    out_char('s');
+    upd_cursor(1, 0);
+
     render();
     
     while (1);

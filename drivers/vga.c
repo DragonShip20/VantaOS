@@ -32,3 +32,7 @@ void upd_cursor(u32 x, u32 y) {
     cursor_pos.y += y;
     return;
 }
+
+pos get_cursor(void) {
+    return cursor_pos;
+}
