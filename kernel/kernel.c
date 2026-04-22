@@ -1,15 +1,17 @@
-extern void init_idt(void);
+#include <main/types.h>
+#include <drivers/vga.h>
+#include <arch/idt.h>
+
+extern pos cursor_pos;
 
 void kernel_main() {
-    char* vga = (char*)0xB8000;
-
-    vga[0] = 'A';
-    vga[1] = 0x0F;
 
     init_idt();
 
-    vga[2] = 'B';
-    vga[3] = 0x0F;
+    out_char('A');
+    cursor_pos.x += 1;
+    out_char('B');
+    render();
 
     while (1);
 }

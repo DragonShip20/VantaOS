@@ -1,20 +1,8 @@
-#include "types.h"
+#include <main/types.h>
+#include <arch/idt.h>
 
-typedef struct {
-    u16 offset_1;
-    u16 selector;
-    u8 zero;
-    u8 type_attributes;
-    u16 offset_2;
-} __attribute__((packed)) idt_entry;
-
-typedef struct {
-    u16 limit;
-    u32 base;
-} __attribute__((packed)) idt_desc;
-
-idt_entry idt[256];
-idt_desc idt_descriptor;
+struct idt_entry idt[256];
+struct idt_desc idt_descriptor;
 
 void dummy_func(void) {
     __asm__ volatile ("iret");
