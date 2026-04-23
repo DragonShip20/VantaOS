@@ -33,6 +33,14 @@ void upd_cursor(u32 x, u32 y) {
     return;
 }
 
+int set_cursor(u32 x, u32 y) {
+    if (x >= WIDTH || y >= HEIGHT)
+        return -1;
+    cursor_pos.x = x;
+    cursor_pos.y = y;
+    return 0;
+}
+
 pos get_cursor(void) {
     return cursor_pos;
 }

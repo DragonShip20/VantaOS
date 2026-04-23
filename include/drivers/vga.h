@@ -17,5 +17,6 @@ void render(void);
 void out_char(u8 c);
 void upd_cursor(u32 x, u32 y);
 pos get_cursor(void);
+int set_cursor(u32 x, u32 y);
 
 #endif
