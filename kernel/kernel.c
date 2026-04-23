@@ -8,8 +8,11 @@ extern pos cursor_pos;
 void kernel_main() {
 
     init_idt();
+    init_stdout();
 
-    vga_print("The stdout system works!");
+    stdout.stdout("Works!");
+    set_cursor(0, 1);
+    stdout.stdout("This message is a test");
     
     while (1);
 }
