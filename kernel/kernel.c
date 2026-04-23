@@ -10,9 +10,7 @@ void kernel_main() {
     init_idt();
     init_stdout();
 
-    stdout.stdout("Works!");
-    set_cursor(0, 1);
-    stdout.stdout("This message is a test");
+    stdout.stdout("Working!");
     
     while (1);
 }

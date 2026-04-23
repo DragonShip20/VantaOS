@@ -44,3 +44,23 @@ int set_cursor(u32 x, u32 y) {
 pos get_cursor(void) {
     return cursor_pos;
 }
+
+void cell_move(u32 x1, u32 y1, u32 x2, u32 y2) {
+    u32 index_1 = (y1 * 80) + x1;
+    u32 index_2 = (y2 * 80) + x2;
+
+    screen[index_2] = screen[index_1];
+
+    screen[index_1].c = 0;
+    screen[index_1].color = 0;
+
+    return;
+}
+
+void cell_copy(u32 x1, u32 y1, u32 x2, u32 y2) {
+    u32 index_1 = (y1 * 80) + x1;
+    u32 index_2 = (y2 * 80) + x2;
+
+    screen[index_2] = screen[index_1];
+    return;
+}
