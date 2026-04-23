@@ -10,7 +10,10 @@ void kernel_main() {
     init_idt();
     init_stdout();
 
+    stdout.stdout("Not Working!");
+    set_cursor(0, 1);
     stdout.stdout("Working!");
+    stdout.scroll(1);
     
     while (1);
 }
