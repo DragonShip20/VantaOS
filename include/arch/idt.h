@@ -18,5 +18,6 @@ struct idt_desc {
 
 void dummy_func(void);
 void init_idt(void);
+static void set_idt_gate(int gate, void *func);
 
 #endif
