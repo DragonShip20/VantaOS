@@ -8,6 +8,7 @@ IMG=disk.img
 
 CFLAGS=-m32 -ffreestanding -nostdlib -fno-pie -Iinclude
 LDFLAGS=-m elf_i386 -T linker.ld
+QEMUFLAGS=-drive format=raw,file=$(IMG) -vga std -display gtk,zoom-to-fit=on -full-screen
 
 C_SOURCES := $(shell find kernel arch drivers lib mm fs net -name "*.c")
 C_OBJECTS := $(C_SOURCES:.c=.o)
@@ -46,7 +47,7 @@ $(IMG): boot.bin kernel.bin
 	@dd if=kernel.bin of=$(IMG) bs=512 seek=1 conv=notrunc 2>/dev/null
 
 run: $(IMG)
-	@$(QEMU) $(IMG)
+	@$(QEMU) $(QEMUFLAGS)
 
 debug: $(IMG)
 	@$(QEMU) $(IMG) -s -S

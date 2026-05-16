@@ -12,15 +12,23 @@ _start:
 
         cld
 
-        xor ah, ah
-        mov al, 0x03
+        mov ax, 0x4F02
+        mov bx, 0x117 | 0x4000
+        int 0x10
+        
+        cmp ax, 0x004F
+        jne vesa_fail
+
+        mov ax, 0x4F01
+        mov cx, 0x117
+        mov di, vbe_info
         int 0x10
 
         mov dl, 0x80
 
         mov ah, 0x41
         mov bx, 0x55AA
-        int 0x13
+        int 0x13	
         jc disk_error
 
         mov ah, 0x42
@@ -34,6 +42,10 @@ _start:
 
         jmp enter_pm
 
+vesa_fail:
+        hlt
+        jmp vesa_fail
+    
 enter_pm:
         cli
         lgdt [gdt_desc]
@@ -72,6 +84,7 @@ gdt_desc:
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
+vbe_info equ 0x8000        
 
 ;-------------------------------------------------------------------------------------------------------------
 
