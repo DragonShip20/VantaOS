@@ -43,15 +43,18 @@ typedef struct __attribute__((packed)) vbe_mode_info_t {
 } vbe_mode_info;
 
 extern vbe_mode_info* vbe;
-extern u32* fb;
-extern int width;
-extern int height;
-extern int pitch;
+extern u16 *fb;
+extern u16 *backbuffer;
+extern u16 width;
+extern u16 height;
+extern u16 pitch;
+extern u8 bpp;
 
 extern u16 bg;
 extern u16 fg;
 
 u16 make_color(u8 r, u8 g, u8 b);
 void init_vesa(void);
+void flush(void);
 
 #endif

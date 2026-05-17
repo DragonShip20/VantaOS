@@ -9,6 +9,9 @@ void kernel_main() {
 
     init_idt();
     init_vesa();
+    flush();
         
-    while (1);
+    while (1) {
+        asm volatile ("hlt");
+    }
 }
