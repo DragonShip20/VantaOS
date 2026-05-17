@@ -56,5 +56,6 @@ extern u16 fg;
 u16 make_color(u8 r, u8 g, u8 b);
 void init_vesa(void);
 void flush(void);
+void put_pixel(u16 color, int x, int y);
 
 #endif

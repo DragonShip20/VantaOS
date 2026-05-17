@@ -43,3 +43,7 @@ void init_vesa(void) {
         }
     }
 }
+
+void put_pixel(u16 color, int x, int y) {
+    backbuffer[y * width + x] = color;
+}
