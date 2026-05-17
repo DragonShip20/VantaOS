@@ -7,11 +7,13 @@
 cell screen[WIDTH * HEIGHT];
 pos cursor_pos = {0, 0};
 
+/* Not writing directly to VRAM */
 void render(void) {
     u16* vga = (u16*)0xB8000;
 
     for (int i=0; i< (WIDTH * HEIGHT); i++) {
-            vga[i] = screen[i].c | (screen[i].color << 8);
+        /* VGA letter layout: 8 bit attr | 8 bit char */
+        vga[i] = screen[i].c | (screen[i].color << 8);
     }
     return;
 }
@@ -25,6 +27,8 @@ void out_char(u8 c) {
 
 void upd_cursor(u32 x, u32 y) {
     cursor_pos.x += x;
+    
+    /* Checking for screen edge */
     if (cursor_pos.x >= WIDTH) {
         cursor_pos.y += (cursor_pos.x / WIDTH);
         cursor_pos.x %= WIDTH;
@@ -45,6 +49,7 @@ pos get_cursor(void) {
     return cursor_pos;
 }
 
+/* TODO: implement memmove here */
 void cell_move(u32 x1, u32 y1, u32 x2, u32 y2) {
     u32 index_1 = (y1 * 80) + x1;
     u32 index_2 = (y2 * 80) + x2;
@@ -57,6 +62,7 @@ void cell_move(u32 x1, u32 y1, u32 x2, u32 y2) {
     return;
 }
 
+/* TODO: implement memcpy here */
 void cell_copy(u32 x1, u32 y1, u32 x2, u32 y2) {
     u32 index_1 = (y1 * 80) + x1;
     u32 index_2 = (y2 * 80) + x2;

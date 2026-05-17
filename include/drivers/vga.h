@@ -8,6 +8,7 @@ typedef struct {
     u32 y;
 } pos;
 
+/* Memory layout of every field in VGA text mode */
 typedef struct {
     u8 c;
     u8 color;

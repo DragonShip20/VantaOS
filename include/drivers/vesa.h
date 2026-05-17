@@ -3,6 +3,7 @@
 
 #include <main/types.h>
 
+/* 512 byte struct, BIOS given vesa mode info */
 typedef struct __attribute__((packed)) vbe_mode_info_t {
     u16 attributes;
     u8  window_a;
