@@ -16,6 +16,7 @@ void init_stdout(void) {
 
 /* TODO: move vga abstraction code to seperate file, keep stdout code here */
 void vga_print(const u8* s) {
+    /* TODO: check for buffer overflow */
     while (*s) {
         out_char(*s);
         upd_cursor(1, 0);
@@ -26,6 +27,7 @@ void vga_print(const u8* s) {
 }
 
 void scroll(u32 lines) {
+    /* TODO: check for valid number of lines */
     for (int y=lines; y<HEIGHT; y++) {
         for (int x=0; x<WIDTH; x++) {
             cell_move(x, y, x, (y-lines));
