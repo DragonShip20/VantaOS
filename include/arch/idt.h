@@ -3,6 +3,7 @@
 
 #include <main/types.h>
 
+/* Both need to be packed */
 struct idt_entry {
     u16 offset_1;
     u16 selector;

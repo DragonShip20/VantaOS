@@ -67,12 +67,7 @@ disk_error:
         hlt
         jmp disk_error
 
-;; Disk address packet structure:
-;; Size of packet (u8) 
-;; Reserved (u8)
-;; Num of blocks to transfer (u16)
-;; Transfer buffer (u32)
-;; Starting block number (u64)
+;; Disk address packet
 dap:
         db 0x10
         db 0x00

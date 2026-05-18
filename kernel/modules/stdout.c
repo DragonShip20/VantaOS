@@ -7,12 +7,14 @@
 
 struct stdout stdout;
 
+/* TODO: replace vga as stdout with dynamic stdout choosing */
 void init_stdout(void) {
     stdout.stdout = (void*)vga_print;
     stdout.scroll = (void*)scroll;
     return;
 }
 
+/* TODO: move vga abstraction code to seperate file, keep stdout code here */
 void vga_print(const u8* s) {
     while (*s) {
         out_char(*s);
