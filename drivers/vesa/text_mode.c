@@ -7,6 +7,8 @@ vesa_cell *vesa_screen = (vesa_cell*)0x900000;
 int screen_w = 0;
 int screen_h = 0;
 
+vesa_cursor vcursor = {0};
+
 void draw_cell(vesa_cell c, u32 x, u32 y) {
     for (int row=0; row<10; row++) {
         for (int col=0; col<10; col++) {
@@ -30,6 +32,8 @@ void init_vesa_text_mode(void) {
     /* Dividing by 10 because cell dimensions are 10x10 */
     screen_w = width / 10;
     screen_h = height / 10;
+    vcursor.x = 0;
+    vcursor.y = 0;
 }
 
 void render_cells(void) {
@@ -41,4 +45,14 @@ void render_cells(void) {
         draw_cell(vesa_screen[i], i % screen_w, i / screen_w);
     }
     flush();
+}
+
+void putc(u8 c) {
+    int index = vcursor.y * screen_w + vcursor.x;
+    vesa_screen[index].fg = fg;
+    vesa_screen[index].bg = bg;
+    vesa_screen[index].dirty = 1;
+    for (int i=0; i<8; i++) {
+        vesa_screen[index].glyph[i] = font[c][i];
+    }
 }

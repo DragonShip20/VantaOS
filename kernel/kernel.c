@@ -11,15 +11,26 @@ void kernel_main() {
     init_idt();
     init_vesa();
 
-    /* Dumps the font to the screen */
-    for (int x=65; x<91; x++) {
-        vesa_screen[x - 65].fg = fg;
-        vesa_screen[x - 65].bg = bg;
-        vesa_screen[x - 65].dirty = 1;
-        for (int i=0; i<8; i++) {
-            vesa_screen[x - 65].glyph[i] = font[x][i];
-        }
-    }
+    putc('H');
+    vcursor.x += 1;
+    putc('E');
+    vcursor.x += 1;
+    putc('L');
+    vcursor.x += 1;
+    putc('L');
+    vcursor.x += 1;
+    putc('O');
+    vcursor.x += 2;
+    putc('W');
+    vcursor.x += 1;
+    putc('O');
+    vcursor.x += 1;
+    putc('R');
+    vcursor.x += 1;
+    putc('L');
+    vcursor.x += 1;
+    putc('D');
+    vcursor.x += 1;
     render_cells();
     
     while (1) {
