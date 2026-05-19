@@ -44,7 +44,7 @@ void init_vesa(void) {
     pitch = vbe->pitch;
     bpp = vbe->bpp;
 
-    bg = make_color(50, 150, 0);
+    bg = make_color(0, 0, 255);
     fg = make_color(255, 255, 255);
 
     for (int y=0; y<height; y++) {

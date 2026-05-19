@@ -4,7 +4,7 @@
 #define HEIGHT 25
 #define WIDTH 80
 
-cell screen[WIDTH * HEIGHT];
+vga_cell screen[WIDTH * HEIGHT];
 pos cursor_pos = {0, 0};
 
 /* Not writing directly to VRAM */

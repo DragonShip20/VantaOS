@@ -17,12 +17,12 @@ void kernel_main() {
 
     /* Dumps the font to the screen */
     for (int x=65; x<91; x++) {
-        vscreen[x].fg = fg;
-        vscreen[x].bg = bg;
+        vesa_screen[x].fg = fg;
+        vesa_screen[x].bg = bg;
         for (int i=0; i<8; i++) {
-            vscreen[x].glyph[i] = font[x][i];
+            vesa_screen[x].glyph[i] = font[x][i];
         }
-        draw_cell(vscreen[x], x-65, 0);
+        draw_cell(vesa_screen[x], x-65, 0);
     }
     flush();
         

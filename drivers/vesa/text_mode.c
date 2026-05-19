@@ -1,9 +1,9 @@
 #include <drivers/text_mode.h>
 
 /* TODO: replace fixed address width memory allocation */
-vcell *vscreen = (vcell*)0x900000;
+vesa_cell *vesa_screen = (vesa_cell*)0x900000;
 
-void draw_cell(vcell c, u32 x, u32 y) {
+void draw_cell(vesa_cell c, u32 x, u32 y) {
     for (int row=0; row<10; row++) {
         for (int col=0; col<10; col++) {
             /* Check for cell edges (padding) */

@@ -7,14 +7,14 @@
 
 #define PIX(x) (1 << (7 - (x))) /* Set x bit of u8 value */
 
-typedef struct vcell {
+typedef struct vesa_cell {
     u16 fg;
     u16 bg;
     glyph_t glyph;
-} vcell;
+} vesa_cell;
 
-extern vcell *vscreen;
+extern vesa_cell *vesa_screen;
 
-void draw_cell(vcell c, u32 x, u32 y);
+void draw_cell(vesa_cell c, u32 x, u32 y);
 
 #endif

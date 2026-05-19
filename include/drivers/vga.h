@@ -12,7 +12,7 @@ typedef struct {
 typedef struct {
     u8 c;
     u8 color;
-} cell;
+} vga_cell;
 
 void render(void);
 void out_char(u8 c);
