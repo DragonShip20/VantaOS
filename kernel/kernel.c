@@ -11,21 +11,17 @@ void kernel_main() {
     init_idt();
     init_vesa();
 
-    /* Dividing by 10 because cell dimensions are 10x10 */
-    int screen_w = width / 10;
-    int screen_h = height / 10;
-
     /* Dumps the font to the screen */
     for (int x=65; x<91; x++) {
-        vesa_screen[x].fg = fg;
-        vesa_screen[x].bg = bg;
+        vesa_screen[x - 65].fg = fg;
+        vesa_screen[x - 65].bg = bg;
+        vesa_screen[x - 65].dirty = 1;
         for (int i=0; i<8; i++) {
-            vesa_screen[x].glyph[i] = font[x][i];
+            vesa_screen[x - 65].glyph[i] = font[x][i];
         }
-        draw_cell(vesa_screen[x], x-65, 0);
     }
-    flush();
-        
+    render_cells();
+    
     while (1) {
         asm volatile ("hlt");
     }

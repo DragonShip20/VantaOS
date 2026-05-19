@@ -3,6 +3,10 @@
 /* TODO: replace fixed address width memory allocation */
 vesa_cell *vesa_screen = (vesa_cell*)0x900000;
 
+/* Dividing by 10 because cell dimensions are 10x10 */
+int screen_w = 0;
+int screen_h = 0;
+
 void draw_cell(vesa_cell c, u32 x, u32 y) {
     for (int row=0; row<10; row++) {
         for (int col=0; col<10; col++) {
@@ -19,4 +23,22 @@ void draw_cell(vesa_cell c, u32 x, u32 y) {
             put_pixel(c.bg, x*10+col, y*10+row);
         }
     }
+}
+
+/* Stage 2 of init_vesa, keeping the compiler happy */
+void init_vesa_text_mode(void) {
+    /* Dividing by 10 because cell dimensions are 10x10 */
+    screen_w = width / 10;
+    screen_h = height / 10;
+}
+
+void render_cells(void) {
+    for (int i=0; i<screen_h*screen_w; i++) {
+        /* Checking for dirty cells (optimisation) */
+        if (vesa_screen[i].dirty != 1)
+            continue;
+
+        draw_cell(vesa_screen[i], i % screen_w, i / screen_w);
+    }
+    flush();
 }

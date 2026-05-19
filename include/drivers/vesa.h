@@ -2,6 +2,7 @@
 #define VESA_H
 
 #include <main/types.h>
+#include <drivers/text_mode.h>
 
 /* 512 byte struct, BIOS given vesa mode info */
 typedef struct __attribute__((packed)) vbe_mode_info_t {

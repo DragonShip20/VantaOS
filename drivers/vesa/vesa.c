@@ -52,6 +52,7 @@ void init_vesa(void) {
             backbuffer[y * width + x] = bg;
         }
     }
+    init_vesa_text_mode();
 }
 
 void put_pixel(u16 color, int x, int y) {
