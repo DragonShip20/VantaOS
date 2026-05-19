@@ -49,10 +49,20 @@ void render_cells(void) {
 
 void putc(u8 c) {
     int index = vcursor.y * screen_w + vcursor.x;
+    /* TODO: add custom bg and fg instead of fixed ones */
     vesa_screen[index].fg = fg;
     vesa_screen[index].bg = bg;
     vesa_screen[index].dirty = 1;
     for (int i=0; i<8; i++) {
-        vesa_screen[index].glyph[i] = font[c][i];
+        /* Setting each row separately is necesary */
+        vesa_screen[index].glyph[i] = font[c][i]; 
     }
+}
+
+int vesa_set_cursor(u32 x, u32 y) {
+    /* Checking for screen boundries */
+    if (x > screen_w || y > screen_h)
+        return 1;
+    vcursor.x = x;
+    vcursor.y = y;
 }

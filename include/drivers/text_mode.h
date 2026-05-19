@@ -28,5 +28,6 @@ void draw_cell(vesa_cell c, u32 x, u32 y);
 void render_cells(void);
 void init_vesa_text_mode(void);
 void putc(u8 c);
+int vesa_set_cursor(u32 x, u32 y);
 
 #endif

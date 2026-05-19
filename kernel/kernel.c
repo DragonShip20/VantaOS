@@ -12,25 +12,25 @@ void kernel_main() {
     init_vesa();
 
     putc('H');
-    vcursor.x += 1;
+    vesa_set_cursor(1, 0);
     putc('E');
-    vcursor.x += 1;
+    vesa_set_cursor(2, 0);
     putc('L');
-    vcursor.x += 1;
+    vesa_set_cursor(3, 0);
     putc('L');
-    vcursor.x += 1;
+    vesa_set_cursor(4, 0);
     putc('O');
-    vcursor.x += 2;
+    vesa_set_cursor(0, 1);
     putc('W');
-    vcursor.x += 1;
+    vesa_set_cursor(1, 1);
     putc('O');
-    vcursor.x += 1;
+    vesa_set_cursor(2, 1);
     putc('R');
-    vcursor.x += 1;
+    vesa_set_cursor(3, 1);
     putc('L');
-    vcursor.x += 1;
+    vesa_set_cursor(4, 1);
     putc('D');
-    vcursor.x += 1;
+    vesa_set_cursor(5, 1);
     render_cells();
     
     while (1) {
