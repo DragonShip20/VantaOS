@@ -7,7 +7,7 @@ void draw_cell(vcell c, u32 x, u32 y) {
     for (int row=0; row<10; row++) {
         for (int col=0; col<10; col++) {
             /* Check for cell edges (padding) */
-            if (row <= 2 || col <=2 || (col > 8 && row > 8)) {
+            if ((col <= 1 || row <= 1) || (col > 9 && row > 9)) {
                 put_pixel(c.bg, x*10+col, y*10+row);
                 continue;
             }
