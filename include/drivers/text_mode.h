@@ -29,5 +29,6 @@ void render_cells(void);
 void init_vesa_text_mode(void);
 void putc(u8 c);
 int vesa_set_cursor(u32 x, u32 y);
+u8 parse_escape(u8 c);
 
 #endif

@@ -66,3 +66,43 @@ int vesa_set_cursor(u32 x, u32 y) {
     vcursor.x = x;
     vcursor.y = y;
 }
+
+u8 parse_escape(u8 c) {
+    /* Function takes the next char after the \ */
+    switch (c) {
+    case 'n':
+        vesa_set_cursor(0, vcursor.y+1);
+        return 0; /* Return 0 if this function handles it */
+    case 't':
+        vesa_set_cursor(vcursor.x+4, vcursor.y);
+        return 0;
+    case 'b':
+        vesa_set_cursor(vcursor.x-1, vcursor.y);
+        return 0;
+    case 'r':
+        vesa_set_cursor(0, vcursor.y);
+        return 0;
+    case 'a':
+        /* TODO: add actual bell ringing here */
+        return 0;
+    case '\'':
+        return '\''; /* Return normal char if this just needs printing */
+    case '"':
+        return '"';
+    case '?':
+        return '?';
+    case '\\':
+        return '\\';
+    case 'f':
+        /* We do not support form feed, print space */
+        return ' ';
+    case 'v':
+        vesa_set_cursor(0, vcursor.y+4);
+        return 0;
+    case '0':
+        return 1; /* Return 1 if the char is the null terminator */
+    default:
+        return 2; /* Return 2 if the char is unexpected */
+    }
+    /* We do not yet support printing octal and hex with this function */
+}
