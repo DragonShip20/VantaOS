@@ -57,6 +57,7 @@ void putc(u8 c) {
         /* Setting each row separately is necesary */
         vesa_screen[index].glyph[i] = font[c][i]; 
     }
+    vesa_upd_cursor(1, 0);
 }
 
 int vesa_set_cursor(u32 x, u32 y) {
