@@ -107,3 +107,18 @@ u8 parse_escape(u8 c) {
     }
     /* We do not yet support printing octal and hex with this function */
 }
+void vesa_upd_cursor(u32 x, u32 y) {
+    if (vcursor.x + x > screen_w) {
+        vcursor.x += x % screen_w;
+        vcursor.y += y / screen_w;
+    } else {
+        vcursor.x += x;
+    }
+    if (vcursor.y + y > screen_h) {
+        vcursor.x = screen_w - 1;
+        vcursor.y = screen_h;
+    } else {
+        vcursor.y += y;
+    }
+}
+
