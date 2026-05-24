@@ -107,6 +107,7 @@ u8 parse_escape(u8 c) {
     }
     /* We do not yet support printing octal and hex with this function */
 }
+
 void vesa_upd_cursor(u32 x, u32 y) {
     if (vcursor.x + x > screen_w) {
         vcursor.x += x % screen_w;
@@ -119,6 +120,23 @@ void vesa_upd_cursor(u32 x, u32 y) {
         vcursor.y = screen_h;
     } else {
         vcursor.y += y;
+    }
+}
+
+void print_hex_u32(u32 v) {
+    static char hex[] = {
+    '0','1','2','3',
+    '4','5','6','7',
+    '8','9','A','B',
+    'C','D','E','F'
+    };
+
+    putc('0');
+    putc('x');
+
+    for (int i = 7; i >= 0; i--) {
+        u8 nibble = (v >> (i * 4)) & 0xF;
+        putc(hex[nibble]);
     }
 }
 

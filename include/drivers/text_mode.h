@@ -31,5 +31,6 @@ void putc(u8 c);
 int vesa_set_cursor(u32 x, u32 y);
 u8 parse_escape(u8 c);
 void vesa_upd_cursor(u32 x, u32 y);
+void print_hex_u32(u32 v);
 
 #endif
