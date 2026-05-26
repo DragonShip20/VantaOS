@@ -140,3 +140,19 @@ void print_hex_u32(u32 v) {
     }
 }
 
+
+void print(const char *str) {
+    while (*str) {
+        if ((*str) < ' ') {
+            if (*str == '\0') break;
+            u8 c = parse_escape(*str);
+            if (c != 0 && c != 1) {
+                putc(c);
+            }
+        } else {
+            putc(*str);
+        }
+        str++;
+    }
+    render_cells();
+}
