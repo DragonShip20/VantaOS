@@ -143,9 +143,11 @@ void print_hex_u32(u32 v) {
 
 void print(const char *str) {
     while (*str) {
+        /* All chars with lower value than ' ' are unprintable */
         if ((*str) < ' ') {
             if (*str == '\0') break;
             u8 c = parse_escape(*str);
+            /* O and 1 means the function handles it */
             if (c != 0 && c != 1) {
                 putc(c);
             }
@@ -154,5 +156,7 @@ void print(const char *str) {
         }
         str++;
     }
+    /* This function does the cell rendering for you */
+    /* It's worth thinking about better ideas here */
     render_cells();
 }
