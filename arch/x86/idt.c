@@ -5,7 +5,12 @@
 struct idt_entry idt[256];
 extern void isr_common(void);
 
+const char *regs[] =
+    {"EDI", "ESI", "EBP", "ESP", "EBX",
+     "EDX", "ECX", "EAX", "EIP", "CS", "EFLAGS"};
+
 void init_idt(void) {
+    /* TODO: add separate isr stubs for interrupts */
     for (int i=0; i<256; i++) {
         set_idt_gate(i, isr_common);
     }
@@ -35,8 +40,19 @@ static void lidt(u32 base, u16 limit) {
     __asm__ volatile ("lidt %0" : : "m"(descriptor));
 }
 
-/* TODO: add register (and maybe stack) dumping on exception */
-void isr_dispatcher(void) {
+void isr_dispatcher(u32* esp) {
     print("INTERRUPT\n");
+
+    /* Stack dumping (which means all registers) */
+    for (int i=0; i<11; i++) {
+        print(regs[i]);
+        putc(' ');
+        print_hex_u32(esp[i]);
+        if (i>=3 && i%5==0) {
+            print("\n");
+            continue;
+        }
+        putc(' ');
+    }
     return;
 }

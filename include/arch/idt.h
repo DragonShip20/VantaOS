@@ -18,9 +18,10 @@ struct idt_desc {
 } __attribute__((packed));
 
 extern struct idt_entry idt[256];
+extern const char *regs[];
 void init_idt(void);
 static void set_idt_gate(int gate, void *func);
 static void lidt(u32 base, u16 limit);
-void isr_dispatcher(void);
+void isr_dispatcher(u32* esp);
 
 #endif
