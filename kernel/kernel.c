@@ -9,7 +9,9 @@ void kernel_main() {
     init_idt();
     init_vesa();
 
-    print("The quick brown fox jumps over the lazy dog");
+    print("Say my name\n");
+    asm volatile ("int $42");
+    print("Heisenberg");
     
     while (1) {
         asm volatile ("hlt");
