@@ -4,15 +4,17 @@
 
 struct idt_entry idt[256];
 extern void isr_common(void);
+extern void *isr_stubs[256];
+extern void *isr_stubs_end[];
 
 const char *regs[] =
     {"EDI", "ESI", "EBP", "ESP", "EBX",
-     "EDX", "ECX", "EAX", "EIP", "CS", "EFLAGS"};
+     "EDX", "ECX", "EAX", "ERR CODE", "INT", "EIP", "CS", "EFLAGS"};
 
 void init_idt(void) {
     /* TODO: add separate isr stubs for interrupts */
     for (int i=0; i<256; i++) {
-        set_idt_gate(i, isr_common);
+        set_idt_gate(i, (void (*)())isr_stubs[i]);
     }
     
     void *base = &idt;
@@ -44,7 +46,7 @@ void isr_dispatcher(u32* esp) {
     print("INTERRUPT\n");
 
     /* Stack dumping (which means all registers) */
-    for (int i=0; i<11; i++) {
+    for (int i=0; i<13; i++) {
         print(regs[i]);
         putc(' ');
         print_hex_u32(esp[i]);
@@ -54,5 +56,6 @@ void isr_dispatcher(u32* esp) {
         }
         putc(' ');
     }
+    print("\n\n");
     return;
 }
