@@ -10,7 +10,7 @@ void kernel_main() {
     init_vesa();
 
     print("Say my name\n");
-    asm volatile ("int $42");
+    asm volatile ("int $5");
     print("Heisenberg");
     
     while (1) {

@@ -1,6 +1,7 @@
 global isr_common
 extern isr_dispatcher
 
+;; Every int has its own stub, and all lead to common stub
 isr_common:
     pushad
     push esp ;; Giving the C dispatcher the stack 
@@ -69,6 +70,7 @@ ISR_NOERR 31
 %assign i i+1
 %endrep
 
+;; Giving C all the stubs
 global isr_stubs
 global isr_stubs_end
 

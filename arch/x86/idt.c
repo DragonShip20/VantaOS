@@ -7,9 +7,10 @@ extern void isr_common(void);
 extern void *isr_stubs[256];
 extern void *isr_stubs_end[];
 
+/* This is the exact stack order, with edi being the youngest */
 const char *regs[] =
     {"EDI", "ESI", "EBP", "ESP", "EBX",
-     "EDX", "ECX", "EAX", "ERR CODE", "INT", "EIP", "CS", "EFLAGS"};
+     "EDX", "ECX", "EAX", "RET ADDRESS", "INT", "ERR CODE", "EIP", "CS", "EFLAGS"};
 
 void init_idt(void) {
     /* TODO: add separate isr stubs for interrupts */
@@ -46,7 +47,10 @@ void isr_dispatcher(u32* esp) {
     print("INTERRUPT\n");
 
     /* Stack dumping (which means all registers) */
-    for (int i=0; i<13; i++) {
+    for (int i=0; i<14; i++) {
+        /* Checking for ret address */
+        if (i==8)
+            continue;
         print(regs[i]);
         putc(' ');
         print_hex_u32(esp[i]);
