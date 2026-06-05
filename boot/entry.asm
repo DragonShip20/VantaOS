@@ -8,7 +8,36 @@ _start:
     int 0x13
     jc disk_error
 
+    call memory_map
+
     jmp enter_pm
+
+memory_map:
+    xor ebx, ebx
+    xor bp, bp ;; bp is the counter
+    xor ax, ax
+    mov es, ax
+    mov di, 0x9000 ;; The mmap is saved to 0x9000
+.loop:  
+    mov eax, 0xE820
+    mov edx, 0x534D4150 ;; 'SMAP'
+    mov ecx, 24
+    int 0x15
+
+    inc bp
+
+    jc .error
+    cmp eax, 0x534D4150
+    jne .error
+
+    add di, 24 ;; Next entry
+    test ebx, ebx
+    jne .loop
+.done:
+    ret
+.error:
+    hlt
+    jmp .error
 
 disk_error:
     hlt
