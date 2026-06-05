@@ -2,8 +2,8 @@ global _start
 extern kernel_main
 
 _start:
-    call kernel_main
+    jmp kernel_main
 
-.hang:
+.halt:
     hlt
-    jmp .hang
+    jmp .halt

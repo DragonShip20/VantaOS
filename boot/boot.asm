@@ -35,7 +35,7 @@ _start:
         int 0x13	
         jc disk_error
 	
-	;; Load kernel into RAM
+	;; Load stage 2 into RAM
         mov ah, 0x42
         mov si, dap
         int 0x13
@@ -46,22 +46,12 @@ _start:
         or al, 2
         out 0x92, al
 
-        jmp enter_pm
+    ;; Jump to stage 2
+        jmp 0x500
 
 vesa_fail:
         hlt
         jmp vesa_fail
-    
-enter_pm:
-	;; Load GDT and set bit 1 (PM enable) in cr0
-        cli
-        lgdt [gdt_desc]
-        mov eax, cr0
-        or eax, 1
-        mov cr0, eax
-	
-	;; Flush CS
-        jmp CODE_SEG:pm_entry
 
 disk_error:
         hlt
@@ -71,50 +61,13 @@ disk_error:
 dap:
         db 0x10
         db 0x00
-        dw 50 ;; Number of sectors to load
+        dw 4 ;; Number of sectors to load
+        dw 0x0500
         dw 0x0000
-        dw 0x1000
         dq 1
-
-gdt_start:
-	;; GDT null entry
-        dq 0x0000000000000000
-
-gdt_code:
-	;; Kernel code segment 
-        dq 0x00CF9A000000FFFF
-
-gdt_data:
-	;; Kernel data segment
-        dq 0x00CF92000000FFFF
-
-gdt_end:
-
-gdt_desc:
-        dw gdt_end - gdt_start -1
-        dd gdt_start
-
-CODE_SEG equ 0x08
-DATA_SEG equ 0x10
 
 ;; VBE struct localisation 
 vbe_info equ 0x8000        
-
-;-------------------------------------------------------------------------------------------------------------
-
-BITS 32
-
-pm_entry:
-        mov ax, DATA_SEG
-        mov ds, ax
-        mov es, ax
-        mov fs, ax
-        mov gs, ax
-        mov ss, ax
-        mov esp, 0x90000
-
-	;; Kernel entry
-        jmp 0x10000
 
 ;; Boot signature 
 times 510-($ - $$) db 0

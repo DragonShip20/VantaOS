@@ -25,6 +25,11 @@ boot.bin: boot/boot.asm
 	@$(ASM) -f bin $< -o $@
 	@truncate -s 512 boot.bin 
 
+# Bootloader stage 2
+entry.bin: boot/entry.asm
+	@$(ASM) -f bin $< -o $@
+	@truncate -s 2048 boot.bin
+
 # ASM -> OBJ
 %.o: %.asm
 	@$(ASM) -f elf32 $< -o $@
@@ -41,10 +46,11 @@ kernel.bin: kernel.elf
 	@$(OBJCOPY) -O binary $< $@
 
 # Disk image
-$(IMG): boot.bin kernel.bin
+$(IMG): boot.bin entry.bin kernel.bin
 	@dd if=/dev/zero of=$(IMG) bs=512 count=2048 2>/dev/null
 	@dd if=boot.bin of=$(IMG) bs=512 count=1 conv=notrunc 2>/dev/null
-	@dd if=kernel.bin of=$(IMG) bs=512 seek=1 conv=notrunc 2>/dev/null
+	@dd if=entry.bin of=$(IMG) bs=512 seek=1 conv=notrunc 2>/dev/null
+	@dd if=kernel.bin of=$(IMG) bs=512 seek=5 conv=notrunc 2>/dev/null
 
 run: $(IMG)
 	@$(QEMU) $(QEMUFLAGS)
