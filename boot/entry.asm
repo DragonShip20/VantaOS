@@ -34,6 +34,7 @@ memory_map:
     test ebx, ebx
     jne .loop
 .done:
+    mov word [0xA000], bp
     ret
 .error:
     hlt

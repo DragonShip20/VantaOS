@@ -3,10 +3,12 @@
 #include <drivers/text_mode.h>
 #include <arch/idt.h>
 #include <kernel/stdout.h>
+#include <mm/mmap.h>
 
 void kernel_main() {
 
     init_idt();
+    init_mm();
     init_vesa();
 
     print("Say my name\n");
