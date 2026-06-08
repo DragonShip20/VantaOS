@@ -7,14 +7,13 @@
 
 void kernel_main() {
 
-    init_idt();
-    init_mm();
     init_vesa();
+    print("VESA display and framebuffer initialised and loaded.\n");
+    init_idt();
+    print("Interrupt Descriptor Table initialised and loaded.\n");
+    init_mm();
+    print("E820 ram map initialised and loaded.\n");
 
-    print("Say my name\n");
-    asm volatile ("int $5");
-    print("Heisenberg");
-    
     while (1) {
         asm volatile ("hlt");
     }
