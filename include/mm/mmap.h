@@ -15,7 +15,9 @@ typedef struct e820_entry {
 } __attribute__((packed)) e820_entry;
 
 extern e820_entry mem_map[];
+extern u64 hi_addr;
 
 void init_mm(void);
+void handle_e820(u32 addr, u16 count);
 
 #endif
