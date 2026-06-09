@@ -1,0 +1,18 @@
+# Build artifacts and logs
+*.o
+*.obj
+*.elf
+*.bin
+*.img
+*.iso
+*.map
+*.sym
+*.log
+
+# Editors
+*~
+\#*\#
+.\#*
+*.swp
+*.swo
+*.elc
