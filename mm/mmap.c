@@ -2,9 +2,12 @@
 
 e820_entry mem_map[128]; /* For now we only support 128 entries */
 u64 hi_addr = 0; /* The highest Physical Adress Space address for the PMM */
+u8 *bitmap = (u8*)&_kernel_end;
+u32 bitmap_len = 0;
 
 void init_mm(void) {
     handle_e820(E820_ADDR, E820_COUNT);
+    init_pmm();
 }
 
 void handle_e820(u32 addr, u16 count) {
@@ -17,4 +20,9 @@ void handle_e820(u32 addr, u16 count) {
         if (end > hi_addr)
             hi_addr = end;
     }
+}
+
+void init_pmm(void) {
+    bitmap_len = hi_addr / 0x8000; /* Every bit maps 4kb */
+    memset((void*)bitmap, bitmap_len, 0xFF); /* For now everything is set */
 }
