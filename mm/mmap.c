@@ -5,9 +5,11 @@ u64 hi_addr = 0; /* The highest Physical Adress Space address for the PMM */
 u8 *bitmap = (u8*)&_kernel_end;
 u32 bitmap_len = 0;
 
+u64 used_pages[5] = {0x0, 0x7000, 0x8000, 0x9000, 0xA000};
+
 void init_mm(void) {
     handle_e820(E820_ADDR, E820_COUNT);
-    init_pmm();
+    init_pmm(mem_map, E820_COUNT);
 }
 
 void handle_e820(u32 addr, u16 count) {
@@ -22,9 +24,28 @@ void handle_e820(u32 addr, u16 count) {
     }
 }
 
-void init_pmm(void) {
+void init_pmm(e820_entry *map, u16 count) {
     bitmap_len = hi_addr / 0x8000; /* Every bit maps 4kb */
-    memset((void*)bitmap, bitmap_len, 0xFF); /* For now everything is set */
+    memset((void*)bitmap, bitmap_len, 0xFF); /* Setting everything first */
+
+    for (u16 i=0; i<count; i++) {
+        /* Clearing the type 1 memory regions */
+        if (map[i].type == 1)
+            bitmap_clear(map[i].address, map[i].len);
+    }
+
+    /* Setting the kernel as used */
+    u64 kernel_start_diff = (u64)((u32)&_kernel_start % (u32)0x1000);
+    u64 kernel_end_diff = (u64)((u32)&_kernel_end % (u32)0x1000);
+    u64 kernel_page_start = (u64)((u32)&_kernel_start) - kernel_start_diff ;
+    u64 kernel_page_end = (u64)((u32)&_kernel_end) - kernel_end_diff;
+    bitmap_set(kernel_page_start, kernel_page_end - kernel_page_start);
+
+    /* Setting used pages */
+    for (int i=0; i<5; i++) {
+        bitmap_set(used_pages[i], 0x1000);
+    }
+}
 
 static inline void bitmap_set_bit(u64 page) {
     /* Dividing by 8 because we're operating on u8 */
