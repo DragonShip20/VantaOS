@@ -22,5 +22,7 @@ extern u32 _kernel_end;
 void init_mm(void);
 void handle_e820(u32 addr, u16 count);
 void init_pmm(void);
+static inline void bitmap_set_bit(u64 page);
+static inline void bitmap_clear_bit(u64 page);
 
 #endif

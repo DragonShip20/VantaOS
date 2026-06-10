@@ -25,4 +25,13 @@ void handle_e820(u32 addr, u16 count) {
 void init_pmm(void) {
     bitmap_len = hi_addr / 0x8000; /* Every bit maps 4kb */
     memset((void*)bitmap, bitmap_len, 0xFF); /* For now everything is set */
+
+static inline void bitmap_set_bit(u64 page) {
+    /* Dividing by 8 because we're operating on u8 */
+    bitmap[page / 8] |= (1 << (page & 7));
+}
+
+static inline void bitmap_clear_bit(u64 page) {
+    /* TODO: replace this unclear bit procedure with BIT() function */
+    bitmap[page / 8] &= ~(1 << (page & 7));
 }
