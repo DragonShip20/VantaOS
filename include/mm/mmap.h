@@ -24,5 +24,7 @@ void handle_e820(u32 addr, u16 count);
 void init_pmm(void);
 static inline void bitmap_set_bit(u64 page);
 static inline void bitmap_clear_bit(u64 page);
+void bitmap_clear(u64 addr, u64 len);
+void bitmap_set(u64 addr, u64 len);
 
 #endif

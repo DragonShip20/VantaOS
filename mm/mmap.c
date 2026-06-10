@@ -35,3 +35,19 @@ static inline void bitmap_clear_bit(u64 page) {
     /* TODO: replace this unclear bit procedure with BIT() function */
     bitmap[page / 8] &= ~(1 << (page & 7));
 }
+
+void bitmap_set(u64 addr, u64 len) {
+    u64 first = addr / 0x1000; /* TODO: replace magic number with definition */
+    u64 last  = (addr + len - 1) / 0x1000;
+    for (u64 p=first; p<=last; p++) {
+        bitmap_set_bit(p);
+    }
+}
+
+void bitmap_clear(u64 addr, u64 len) {
+    u64 first = addr / 0x1000;
+    u64 last  = (addr + len - 1) / 0x1000;
+    for (u64 p=first; p<=last; p++) {
+        bitmap_set_bit(p);
+    }
+}
