@@ -31,14 +31,12 @@ void init_pmm(e820_entry *map, u16 count) {
     }
 
     /* Setting the kernel as used */
-    u64 kernel_start_diff = (u64)((u32)&_kernel_start % (u32)0x1000);
-    u64 kernel_end_diff = (u64)((u32)&_kernel_end % (u32)0x1000);
-    u64 kernel_page_start = (u64)((u32)&_kernel_start) - kernel_start_diff ;
-    u64 kernel_page_end = (u64)((u32)&_kernel_end) - kernel_end_diff;
+    u64 kernel_page_start = ((u64)&_kernel_start) & ~0xFFFULL;
+    u64 kernel_page_end = (((u64)&_kernel_end) + 0xFFFULL) & ~0xFFFULL;
     bitmap_set(kernel_page_start, kernel_page_end - kernel_page_start);
 
     /* Setting used pages */
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<12; i++) {
         bitmap_set(used_pages[i], 0x1000);
     }
 }
