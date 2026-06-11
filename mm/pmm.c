@@ -4,6 +4,10 @@ u8 *bitmap = (u8*)&_kernel_end;
 u32 bitmap_len = 0;
 u64 used_pages[5] = {0x0, 0x7000, 0x8000, 0x9000, 0xA000};
 
+static inline u8 bitmap_bit(u64 bit) {
+    return (bitmap[bit >> 3] >> (bit & 7)) & 1;
+}
+
 static inline void bitmap_set_bit(u64 page) {
     /* Dividing by 8 because we're operating on u8 */
     bitmap[page / 8] |= (1 << (page & 7));

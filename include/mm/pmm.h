@@ -13,5 +13,6 @@ static inline void bitmap_set_bit(u64 page);
 static inline void bitmap_clear_bit(u64 page);
 void bitmap_clear(u64 addr, u64 len);
 void bitmap_set(u64 addr, u64 len);
+static inline u8 bitmap_bit(u64 bit);
 
 #endif
