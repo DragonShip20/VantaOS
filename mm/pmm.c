@@ -2,7 +2,7 @@
 
 u8 *bitmap = (u8*)&_kernel_end;
 u32 bitmap_len = 0;
-u64 used_pages[5] = {0x0, 0x7000, 0x8000, 0x9000, 0xA000};
+u64 used_pages[12] = {0x0, 0x7000, 0x8000, 0x9000, 0xA000, 0x10000, 0x11000, 0x12000, 0x13000, 0x14000, 0x15000, 0x16000};
 
 /* For now the addresses are 32 bits but we will switch to long mode */
 u32 alloc_page(u64 count) {
@@ -13,8 +13,10 @@ u32 alloc_page(u64 count) {
         for (u64 j=0; j<count; j++) {
             if (bitmap_bit(i+j))
                 break;
-            if (!bitmap_bit(i+j) && j==(count-1))
+            if (!bitmap_bit(i+j) && j==(count-1)) {
+                bitmap_set(i*0x1000, count*0x1000);
                 return i*0x1000;
+            }
         }
     }
     /* For now we return 1 if there is an error */
@@ -47,7 +49,7 @@ void bitmap_clear(u64 addr, u64 len) {
     u64 first = addr / 0x1000;
     u64 last  = (addr + len - 1) / 0x1000;
     for (u64 p=first; p<=last; p++) {
-        bitmap_set_bit(p);
+        bitmap_clear_bit(p);
     }
 }
 
