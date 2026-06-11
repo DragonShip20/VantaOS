@@ -3,6 +3,7 @@
 
 #include <main/types.h>
 #include <mm/mem_utils.h>
+#include <mm/pmm.h>
 
 /* E820 info location */
 #define E820_ADDR 0x9000
@@ -23,9 +24,5 @@ extern u32 _kernel_end;
 void init_mm(void);
 void handle_e820(u32 addr, u16 count);
 void init_pmm(e820_entry *map, u16 count);
-static inline void bitmap_set_bit(u64 page);
-static inline void bitmap_clear_bit(u64 page);
-void bitmap_clear(u64 addr, u64 len);
-void bitmap_set(u64 addr, u64 len);
 
 #endif
