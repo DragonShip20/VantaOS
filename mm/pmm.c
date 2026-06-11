@@ -4,6 +4,23 @@ u8 *bitmap = (u8*)&_kernel_end;
 u32 bitmap_len = 0;
 u64 used_pages[5] = {0x0, 0x7000, 0x8000, 0x9000, 0xA000};
 
+/* For now the addresses are 32 bits but we will switch to long mode */
+u32 alloc_page(u64 count) {
+    for (u64 i=0; i<=bitmap_len; i++) {
+        if (bitmap_bit(i)) {
+            continue;
+        }
+        for (u64 j=0; j<count; j++) {
+            if (bitmap_bit(i+j))
+                break;
+            if (!bitmap_bit(i+j) && j==(count-1))
+                return i*0x1000;
+        }
+    }
+    /* For now we return 1 if there is an error */
+    return 1; /* A normal call will NEVER return 1 */
+}
+
 static inline u8 bitmap_bit(u64 bit) {
     return (bitmap[bit >> 3] >> (bit & 7)) & 1;
 }
