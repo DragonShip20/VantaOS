@@ -38,6 +38,9 @@ void init_pmm(e820_entry *map, u16 count) {
     u64 kernel_page_end = (((u64)&_kernel_end) + 0xFFFULL) & ~0xFFFULL;
     bitmap_set(kernel_page_start, kernel_page_end - kernel_page_start);
 
+    /* Setting the bitmap as used */
+    bitmap_set((u64)bitmap, (u64)bitmap_len);
+    
     /* Setting used pages */
     for (int i=0; i<12; i++) {
         bitmap_set(used_pages[i], 0x1000);
