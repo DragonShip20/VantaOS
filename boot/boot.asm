@@ -8,7 +8,7 @@ _start:
         mov ds, ax
         mov es, ax
         mov ss, ax
-        mov sp, 0x7c00
+        mov sp, 0xFFFF
         sti
 
         cld
