@@ -2,10 +2,13 @@
 
 e820_entry mem_map[128]; /* For now we only support 128 entries */
 u64 hi_addr = 0; /* The highest Physical Adress Space address for the PMM */
+u64 stack_bottom = 0;
+u64 stack_top = 0;
 
 void init_mm(void) {
     handle_e820(E820_ADDR, E820_COUNT);
     init_pmm(mem_map, E820_COUNT);
+    init_stack();
 }
 
 void handle_e820(u32 addr, u16 count) {
@@ -39,4 +42,13 @@ void init_pmm(e820_entry *map, u16 count) {
     for (int i=0; i<12; i++) {
         bitmap_set(used_pages[i], 0x1000);
     }
+}
+
+void init_stack(void) {
+    stack_bottom = (u64)alloc_page(STACK_SIZE);
+    stack_top = stack_bottom + 0x1000 * STACK_SIZE;
+    asm volatile ("mov %0, %%esp"
+                 :
+                  : "r"((u32)stack_top)
+                 );
 }
