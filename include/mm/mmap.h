@@ -23,9 +23,9 @@ extern e820_entry mem_map[];
 extern u64 hi_addr;
 extern u64 stack_bottom;
 extern u64 stack_top;
-extern u64 heap_bottom = 0;
-extern u64 heap_top = 0;
-extern u64 heap_ptr = 0;
+extern u64 heap_bottom;
+extern u64 heap_top;
+extern u64 heap_ptr;
 extern u32 _kernel_start;
 extern u32 _kernel_end;
 
@@ -33,5 +33,6 @@ void init_mm(void);
 void handle_e820(u32 addr, u16 count);
 void init_pmm(e820_entry *map, u16 count);
 void init_stack(void);
+void init_heap(void);
 
 #endif
