@@ -23,6 +23,12 @@ u32 alloc_page(u64 count) {
     return 1; /* A normal call will NEVER return 1 */
 }
 
+void free(u32 addr) {
+    for (int i=addr; bitmap_bit(i/0x1000); i+=0x1000) {
+        bitmap_clear_bit((u64)i);
+    }
+}
+
 static inline u8 bitmap_bit(u64 bit) {
     return (bitmap[bit >> 3] >> (bit & 7)) & 1;
 }

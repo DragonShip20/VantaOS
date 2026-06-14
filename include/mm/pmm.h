@@ -10,6 +10,7 @@ extern u32 _kernel_start;
 extern u32 _kernel_end;
 
 u32 alloc_page(u64 count);
+void free(u32 addr);
 static inline void bitmap_set_bit(u64 page);
 static inline void bitmap_clear_bit(u64 page);
 void bitmap_clear(u64 addr, u64 len);
