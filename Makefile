@@ -6,7 +6,7 @@ QEMU=qemu-system-x86_64
 
 IMG=disk.img
 
-CFLAGS=-m32 -ffreestanding -nostdlib -fno-pie -Iinclude -std=gnu11
+CFLAGS=-m32 -ffreestanding -nostdlib -fno-pie -fno-common -Iinclude -std=gnu11
 LDFLAGS=-m elf_i386 -T linker.ld
 QEMUFLAGS=-drive format=raw,file=$(IMG) -vga std -display gtk,zoom-to-fit=on -full-screen -m 1G
 
