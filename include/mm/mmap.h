@@ -10,6 +10,7 @@
 #define E820_COUNT *(u16*)0xA000
 
 #define STACK_SIZE 2
+#define HEAP_SIZE 512
 
 typedef struct e820_entry {
     u64 address;
@@ -22,6 +23,9 @@ extern e820_entry mem_map[];
 extern u64 hi_addr;
 extern u64 stack_bottom;
 extern u64 stack_top;
+extern u64 heap_bottom = 0;
+extern u64 heap_top = 0;
+extern u64 heap_ptr = 0;
 extern u32 _kernel_start;
 extern u32 _kernel_end;
 
