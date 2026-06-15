@@ -4,13 +4,13 @@
 #include <main/types.h>
 #include <mm/mem_utils.h>
 #include <mm/pmm.h>
+#include <mm/heap.h>
 
 /* E820 info location */
 #define E820_ADDR 0x9000
 #define E820_COUNT *(u16*)0xA000
 
 #define STACK_SIZE 2
-#define HEAP_SIZE 512
 
 typedef struct e820_entry {
     u64 address;
@@ -23,9 +23,6 @@ extern e820_entry mem_map[];
 extern u64 hi_addr;
 extern u64 stack_bottom;
 extern u64 stack_top;
-extern u64 heap_bottom;
-extern u64 heap_top;
-extern u64 heap_ptr;
 extern u32 _kernel_start;
 extern u32 _kernel_end;
 
@@ -33,6 +30,5 @@ void init_mm(void);
 void handle_e820(u32 addr, u16 count);
 void init_pmm(e820_entry *map, u16 count);
 void init_stack(void);
-void init_heap(void);
 
 #endif
