@@ -11,5 +11,6 @@ extern u64 heap_top;
 extern u64 heap_ptr;
 
 void init_heap(void);
+void* kmalloc(u64 bytes);
 
 #endif
