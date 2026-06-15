@@ -1,8 +1,8 @@
 #include <mm/heap.h>
 
-u64 heap_bottom = 0;
-u64 heap_top = 0;
-u64 heap_ptr = 0;
+u64 heap_bottom = (u64)NULL;
+u64 heap_top = (u64)NULL;
+u64 heap_ptr = (u64)NULL;
 
 void init_heap(void) {
     heap_bottom = (u64)alloc_page(HEAP_SIZE);
@@ -12,7 +12,7 @@ void init_heap(void) {
 
 void* kmalloc(u64 bytes) {
     /* TODO: add NULL type and add it here */
-    if (heap_bottom+heap_ptr >= heap_top) return (void*)0;
+    if (heap_bottom+heap_ptr >= heap_top) return NULL;
     u64 address = heap_bottom+heap_ptr;
     heap_ptr += bytes;
     return (void*)address;

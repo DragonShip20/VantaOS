@@ -1,10 +1,10 @@
 #include <mm/mmap.h>
 
 e820_entry mem_map[128]; /* For now we only support 128 entries */
-u64 hi_addr = 0; /* The highest Physical Adress Space address for the PMM */
+u64 hi_addr = (u64)NULL; /* The highest Physical Adress Space address for the PMM */
 
-u64 stack_bottom = 0;
-u64 stack_top = 0;
+u64 stack_bottom = (u64)NULL;
+u64 stack_top = (u64)NULL;
 
 void init_mm(void) {
     handle_e820(E820_ADDR, E820_COUNT);

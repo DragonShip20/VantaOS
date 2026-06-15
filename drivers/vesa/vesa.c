@@ -1,8 +1,8 @@
 #include <drivers/vesa.h>
 
 /* Necessary vesa variables, operating on 16 bpp and 16 bit color */
-vbe_mode_info* vbe = 0;
-u16 *fb = 0;
+vbe_mode_info* vbe = NULL;
+u16 *fb = NULL;
 u16 *backbuffer = (u16*)0x1000000; /* TODO: replace fixed address with allocated memory */
 u16 width = 0;
 u16 height = 0;
