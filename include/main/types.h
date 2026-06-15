@@ -12,5 +12,6 @@ typedef signed int i32;
 typedef signed long long int i64;
 
 typedef unsigned int size_t;
+#define NULL (void*)0;
 
 #endif
