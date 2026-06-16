@@ -105,6 +105,7 @@ pm_entry:
     mov esp, 0xFFFF
 
     call reserve_pae
+    call setup_pd
 
 	;; Kernel entry
     jmp 0x10000
@@ -113,6 +114,33 @@ hang:
     hlt
     jmp hang
 
+setup_pd:
+    ;; Map the first 4 GiB of Physical Address Space
+    xor ebx, ebx
+    mov edi, PD0_ADDR
+    call .fill
+    mov edi, PD1_ADDR
+    call .fill
+    mov edi, PD2_ADDR
+    call .fill
+    mov edi, PD3_ADDR
+    call .fill
+    ret
+
+.fill:
+    mov ecx, 512 ;; Each PAE struct has 512*8b=4096b
+.loop:
+    mov eax, ebx
+    or eax, 0x83 ;; Flags: present, rw and page size (2mb)
+    mov [edi], eax
+    mov dword [edi+4], 0 ;; For now we map <4GiB so upper bits are all 0
+    add ebx, 0x200000
+    add edi, 8
+    dec ecx
+    jnz .loop
+    jmp .done
+.done:
+    ret
 
 reserve_pae:
     ;; We have to fill the structs with 0
@@ -129,4 +157,5 @@ reserve_pae:
     jmp .loop
 .done:
     ret
+
 times 2048-($ - $$) db 0
