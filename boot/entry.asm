@@ -1,12 +1,6 @@
 [org 0x500]
 BITS 16
 
-PDPT_ADDR equ 0x1000
-PD0_ADDR equ 0x2000
-PD1_ADDR equ 0x3000
-PD2_ADDR equ 0x4000
-PD3_ADDR equ 0x5000
-
 _start:
    	;; Load kernel into RAM
     mov ah, 0x42
@@ -15,26 +9,8 @@ _start:
     jc disk_error
 
     call memory_map
-    call reserve_pae
 
     jmp enter_pm
-
-reserve_pae:
-    ;; We have to fill the structs with 0
-    mov di, PDPT_ADDR
-    mov cx, PD3_ADDR
-    sub cx, di
-    cld
-    xor al, al
-.loop:
-    test cx, cx
-    jz .done
-    stosb ;; [ES:DI] = AL (0)
-    dec cx
-    jmp .loop
-.done:
-    ret
-
 
 memory_map:
     xor ebx, ebx
@@ -113,6 +89,12 @@ DATA_SEG equ 0x10
 
 BITS 32
 
+PDPT_ADDR equ 0x1000
+PD0_ADDR equ 0x2000
+PD1_ADDR equ 0x3000
+PD2_ADDR equ 0x4000
+PD3_ADDR equ 0x5000
+
 pm_entry:
     mov ax, DATA_SEG
     mov ds, ax
@@ -122,6 +104,8 @@ pm_entry:
     mov ss, ax
     mov esp, 0xFFFF
 
+    call reserve_pae
+
 	;; Kernel entry
     jmp 0x10000
 
@@ -129,4 +113,20 @@ hang:
     hlt
     jmp hang
 
+
+reserve_pae:
+    ;; We have to fill the structs with 0
+    mov di, PDPT_ADDR
+    mov cx, PD3_ADDR
+    sub cx, di
+    cld
+    xor al, al
+.loop:
+    test cx, cx
+    jz .done
+    stosb ;; [ES:DI] = AL (0)
+    dec cx
+    jmp .loop
+.done:
+    ret
 times 2048-($ - $$) db 0
