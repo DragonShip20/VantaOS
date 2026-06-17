@@ -4,7 +4,7 @@ A 32-bit x86 hobby operating system written from scratch in C and assembly for s
 
 ## Overview
 
-VantaOS is a minimal, bootable operating system with VESA display developed to explore the fundamentals of computer systems software, including boot processes, CPU modes, memory layout, VESA-rendered text mode, and kernel-level execution.
+VantaOS is an operating system with VESA display, PAE paging and memory management developed to explore the fundamentals of computer systems software, including boot processes, CPU modes, memory layout, VESA-rendered text mode, and kernel-level execution.
 
 It is intentionally built without external OS dependencies in the kernel layer, focusing on direct hardware interaction and a clean, understandable architecture.
 
@@ -12,13 +12,14 @@ It is intentionally built without external OS dependencies in the kernel layer, 
 
 ## Features
 
-Custom x86 Bootloader (boot sector 0)
-C-based kernel entry point (kernel_main)
-ASM -> C transition layer (entry.asm)
-Raw disk image boot pipeline
-x86 Interrupt Descriptor Table
-VESA rendered text mode / VGA text mode output (fallback)
-Make-based build system
+- Custom 2 stage x86 bootloader
+- Physical Memory Management built entirely from scratch
+- Full interrupt handling with custom stubs and stack handling
+- Fully allocated heap and stack
+- PAE paging with PDPT and PD
+- E820 BIOS memory map
+- VESA rendered text mode / VGA text mode output (fallback)
+- Make-based build system
 
 ## Build & Run
 
