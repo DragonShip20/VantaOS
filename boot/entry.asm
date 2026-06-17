@@ -89,6 +89,9 @@ DATA_SEG equ 0x10
 
 BITS 32
 
+PAE equ 1 << 5
+PG equ 1 << 31 
+
 PDPT_ADDR equ 0x1000
 PD0_ADDR equ 0x2000
 PD1_ADDR equ 0x3000
@@ -107,6 +110,7 @@ pm_entry:
     call reserve_pae
     call setup_pd
     call setup_pdpt
+    call enable_paging
 
 	;; Kernel entry
     jmp 0x10000
@@ -114,6 +118,22 @@ pm_entry:
 hang:
     hlt
     jmp hang
+
+enable_paging:
+    mov eax, PDPT_ADDR
+    mov cr3, eax ;; Giving the CPU PDPT for paging
+
+    mov eax, cr4
+    or eax, PAE
+    mov cr4, eax ;; Enabling Physical Address Extention (PAE)
+
+    mov eax, cr0
+    or eax, PG
+    mov cr0, eax ;; Enabling Paging
+    
+    jmp CODE_SEG:.flush ;; Flush pipeline
+.flush:
+    ret
 
 setup_pd:
     ;; Map the first 4 GiB of Physical Address Space
