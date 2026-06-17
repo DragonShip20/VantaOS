@@ -106,6 +106,7 @@ pm_entry:
 
     call reserve_pae
     call setup_pd
+    call setup_pdpt
 
 	;; Kernel entry
     jmp 0x10000
@@ -126,7 +127,6 @@ setup_pd:
     mov edi, PD3_ADDR
     call .fill
     ret
-
 .fill:
     mov ecx, 512 ;; Each PAE struct has 512*8b=4096b
 .loop:
@@ -140,6 +140,18 @@ setup_pd:
     jnz .loop
     jmp .done
 .done:
+    ret
+
+setup_pdpt:
+    ;; One entry in PDPT is PD_ADDR | FLAGS (0x03 here)
+    mov dword [PDPT_ADDR+0], PD0_ADDR | 3 ;; 0x03 = PRESENT | RW
+    mov dword [PDPT_ADDR+4], 0
+    mov dword [PDPT_ADDR+8], PD1_ADDR | 3
+    mov dword [PDPT_ADDR+12], 0
+    mov dword [PDPT_ADDR+16], PD2_ADDR | 3
+    mov dword [PDPT_ADDR+20], 0
+    mov dword [PDPT_ADDR+24], PD3_ADDR | 3
+    mov dword [PDPT_ADDR+28], 0
     ret
 
 reserve_pae:
