@@ -173,6 +173,10 @@ setup_pdpt:
     mov dword [PDPT_ADDR+20], 0
     mov dword [PDPT_ADDR+24], PD3_ADDR | 3
     mov dword [PDPT_ADDR+28], 0
+.setup_pml4:
+    ;; We only have one entry in the PML4
+    mov dword [PML4_ADDR+0], PDPT_ADDR | 3
+    mov dword [PML4_ADDR+4], 0
     ret
 
 reserve_pae:
