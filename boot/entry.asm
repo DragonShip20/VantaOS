@@ -176,18 +176,13 @@ setup_pdpt:
 
 reserve_pae:
     ;; We have to fill the structs with 0
-    mov di, PDPT_ADDR
-    mov cx, PD3_ADDR
-    sub cx, di
     cld
-    xor al, al
-.loop:
-    test cx, cx
-    jz .done
-    stosb ;; [ES:DI] = AL (0)
-    dec cx
-    jmp .loop
-.done:
+
+    mov edi, PDPT_ADDR
+    mov ecx, PD3_ADDR
+    xor eax, eax
+    shr ecx, 2
+    rep stosd
     ret
 
 times 2048-($ - $$) db 0
