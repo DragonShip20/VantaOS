@@ -92,6 +92,7 @@ BITS 32
 PAE equ 1 << 5
 PG equ 1 << 31 
 
+PML4_ADDR equ 0xB000
 PDPT_ADDR equ 0x1000
 PD0_ADDR equ 0x2000
 PD1_ADDR equ 0x3000
@@ -183,6 +184,13 @@ reserve_pae:
     xor eax, eax
     shr ecx, 2
     rep stosd
+
+    mov edi, PML4_ADDR
+    mov ecx, 0x1000
+    xor eax, eax
+    shr ecx, 2
+    rep stosd
+
     ret
 
 times 2048-($ - $$) db 0
