@@ -1,13 +1,33 @@
 global isr_common
 extern isr_dispatcher
 
+%macro push_all 0
+    push rax
+    push rcx
+    push rdx
+    push rbx
+    push rbp
+    push rsi
+    push rdi
+%endmacro
+
+%macro pop_all 0
+    pop rdi
+    pop rsi
+    pop rbp
+    pop rbx
+    pop rdx
+    pop rcx
+    pop rax
+%endmacro
+
 ;; Every int has its own stub, and all lead to common stub
 isr_common:
-    pushad
-    push esp ;; Giving the C dispatcher the stack 
+    push_all
+    push rsp ;; Giving the C dispatcher the stack 
     call isr_dispatcher
-    add esp, 4
-    popad
+    add rsp, 4
+    pop_all
     ret
 
 %macro ISR_NOERR 1
@@ -17,7 +37,7 @@ isr%1:
     push 0 ;; Fake error code
     push %1
     call isr_common
-    add esp, 8
+    add rsp, 8
     iret
 %endmacro
 
@@ -26,7 +46,7 @@ global isr%1
 isr%1:
     push %1
     call isr_common
-    add esp, 4
+    add rsp, 4
     iret
 %endmacro
 
