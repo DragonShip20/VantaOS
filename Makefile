@@ -6,8 +6,8 @@ QEMU=qemu-system-x86_64
 
 IMG=disk.img
 
-CFLAGS=-m32 -ffreestanding -nostdlib -fno-pie -fno-common -Iinclude -std=gnu11
-LDFLAGS=-m elf_i386 -T linker.ld
+CFLAGS=-m64 -ffreestanding -nostdlib -fno-pie -fno-common -Iinclude -std=gnu11
+LDFLAGS=-m elf_x86_64 -T linker.ld
 QEMUFLAGS=-drive format=raw,file=$(IMG) -vga std -display gtk,zoom-to-fit=on -full-screen -m 1G
 
 C_SOURCES := $(shell find kernel arch drivers lib mm fs net -name "*.c")
@@ -32,7 +32,7 @@ entry.bin: boot/entry.asm
 
 # ASM -> OBJ
 %.o: %.asm
-	@$(ASM) -f elf32 $< -o $@
+	@$(ASM) -f elf64 $< -o $@
 
 # C -> OBJ
 %.o: %.c
