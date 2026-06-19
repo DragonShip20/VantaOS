@@ -100,7 +100,9 @@ DATA_SEG_LM equ 0x20
 BITS 32
 
 PAE equ 1 << 5
-PG equ 1 << 31 
+PG equ 1 << 31
+LME equ 1 << 8
+IA_32e_EFER equ 0xC0000080
 
 PML4_ADDR equ 0xB000
 PDPT_ADDR equ 0x1000
@@ -121,30 +123,33 @@ pm_entry:
     call reserve_pae
     call setup_pd
     call setup_pdpt
-    call enable_paging
 
-	;; Kernel entry
-    jmp 0x10000
+    jmp enable_paging_lm
 
 hang:
     hlt
     jmp hang
 
-enable_paging:
-    mov eax, PDPT_ADDR
+enable_paging_lm:
+    cli ;; We dont have a 64 bit IDT for now
+
+    mov eax, PML4_ADDR
     mov cr3, eax ;; Giving the CPU PDPT for paging
 
     mov eax, cr4
     or eax, PAE
     mov cr4, eax ;; Enabling Physical Address Extention (PAE)
 
+    mov ecx, IA_32e_EFER
+    rdmsr
+    or eax, LME
+    wrmsr ;; Long mode enable
+
     mov eax, cr0
     or eax, PG
     mov cr0, eax ;; Enabling Paging
     
-    jmp CODE_SEG:.flush ;; Flush pipeline
-.flush:
-    ret
+    jmp CODE_SEG_LM:lm_entry ;; Flush pipeline
 
 setup_pd:
     ;; Map the first 4 GiB of Physical Address Space
@@ -206,5 +211,25 @@ reserve_pae:
     rep stosd
 
     ret
+
+;; -----------------------------------------------------------------------------------
+
+BITS 64
+
+lm_entry:
+    mov ax, DATA_SEG_LM
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    mov rsp, 0xFFFF
+    
+    jmp 0x10000
+
+halt:
+    cli
+    hlt
+    jmp halt
 
 times 2048-($ - $$) db 0
