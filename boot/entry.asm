@@ -76,6 +76,14 @@ gdt_data:
 	;; Kernel data segment
     dq 0x00CF92000000FFFF
 
+gdt_code64:
+    ;; 64 bit kernel code segment
+    dq 0x00AF9A000000FFFF
+
+gdt_data64:
+    ;; 64 bit kernel data segment
+    dq 0x00AF92000000FFFF
+
 gdt_end:
 
 gdt_desc:
@@ -84,6 +92,8 @@ gdt_desc:
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
+CODE_SEG_LM equ 0x18
+DATA_SEG_LM equ 0x20
 
 ;; -----------------------------------------------------------------------------------
 
