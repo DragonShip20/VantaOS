@@ -1,6 +1,6 @@
 # VantaOS
 
-A 32-bit x86 hobby operating system written from scratch in C and assembly for systems programming education and low-level architecture research.
+A 64-bit x86 hobby operating system written from scratch in C and assembly for systems programming education and low-level architecture research.
 
 ## Overview
 
@@ -13,6 +13,7 @@ It is intentionally built without external OS dependencies in the kernel layer, 
 ## Features
 
 - Custom 2 stage x86 bootloader
+- Long mode architecture
 - Physical Memory Management built entirely from scratch
 - Full interrupt handling with custom stubs and stack handling
 - Fully allocated heap and stack
