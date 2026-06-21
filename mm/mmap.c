@@ -13,7 +13,7 @@ void init_mm(void) {
     init_heap();
 }
 
-void handle_e820(u32 addr, u16 count) {
+void handle_e820(u64 addr, u16 count) {
     e820_entry *mmap = (e820_entry*)addr;
     /* Map the temporary E820 map in ram to a known array */
     for (u16 i=0; i<count; i++) {
