@@ -5,7 +5,7 @@ u32 bitmap_len = 0;
 u64 used_pages[] = {0x0, 0x1000, 0x2000, 0x3000, 0x4000, 0x5000, 0x6000, 0x7000, 0x8000, 0x9000, 0xA000, 0x10000, 0x11000, 0x12000, 0x13000, 0x14000, 0x15000, 0x16000};
 
 /* For now the addresses are 32 bits but we will switch to long mode */
-u32 alloc_page(u64 count) {
+u64 alloc_page(u64 count) {
     for (u64 i=0; i<=bitmap_len; i++) {
         if (bitmap_bit(i)) {
             continue;
@@ -23,7 +23,7 @@ u32 alloc_page(u64 count) {
     return 1; /* A normal call will NEVER return 1 */
 }
 
-void free(u32 addr) {
+void free(u64 addr) {
     for (int i=addr; bitmap_bit(i/0x1000); i+=0x1000) {
         bitmap_clear_bit((u64)i);
     }

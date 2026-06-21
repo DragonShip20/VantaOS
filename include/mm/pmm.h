@@ -6,11 +6,11 @@
 extern u8 *bitmap;
 extern u32 bitmap_len;
 extern u64 used_pages[];
-extern u32 _kernel_start; 
-extern u32 _kernel_end;
+extern u64 _kernel_start; 
+extern u64 _kernel_end;
 
-u32 alloc_page(u64 count);
-void free(u32 addr);
+u64 alloc_page(u64 count);
+void free(u64 addr);
 static inline void bitmap_set_bit(u64 page);
 static inline void bitmap_clear_bit(u64 page);
 void bitmap_clear(u64 addr, u64 len);
