@@ -11,6 +11,7 @@
 #define E820_COUNT *(u16*)0xA000
 
 #define STACK_SIZE 2
+#define PAGE_2M 0x200000ULL
 
 typedef struct e820_entry {
     u64 address;
@@ -30,5 +31,6 @@ void init_mm(void);
 void handle_e820(u32 addr, u16 count);
 void init_pmm(e820_entry *map, u16 count);
 void init_stack(void);
+u64 align_2m(u64 x);
 
 #endif

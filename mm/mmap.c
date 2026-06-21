@@ -57,3 +57,8 @@ void init_stack(void) {
                   : "r"((u32)stack_top)
                  );
 }
+
+u64 align_2m(u64 x) {
+    return (x + PAGE_2M - 1) & ~(PAGE_2M - 1);
+}
+
