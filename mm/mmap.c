@@ -50,11 +50,11 @@ void init_pmm(e820_entry *map, u16 count) {
 }
 
 void init_stack(void) {
-    stack_bottom = (u64)alloc_page(STACK_SIZE);
+    stack_bottom = alloc_page(STACK_SIZE);
     stack_top = stack_bottom + 0x1000 * STACK_SIZE;
-    asm volatile ("mov %0, %%esp"
+    asm volatile ("mov %0, %%rsp"
                  :
-                  : "r"((u32)stack_top)
+                  : "r"((u64)stack_top)
                  );
 }
 
