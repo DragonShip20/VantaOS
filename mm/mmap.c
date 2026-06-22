@@ -9,7 +9,7 @@ u64 stack_top = (u64)NULL;
 void init_mm(void) {
     handle_e820(E820_ADDR, E820_COUNT);
     init_pmm(mem_map, E820_COUNT);
-    init_stack();
+    //init_stack();
     init_heap();
 }
 
@@ -49,6 +49,7 @@ void init_pmm(e820_entry *map, u16 count) {
     }
 }
 
+/* TODO: fix this shit, this triple faults */
 void init_stack(void) {
     stack_bottom = alloc_page(STACK_SIZE);
     stack_top = stack_bottom + 0x1000 * STACK_SIZE;
@@ -56,6 +57,7 @@ void init_stack(void) {
                  :
                   : "r"((u64)stack_top)
                  );
+    /* Do not ret after stack change, call other kernel related func */
 }
 
 u64 align_2m(u64 x) {
