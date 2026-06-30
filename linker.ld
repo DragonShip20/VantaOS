@@ -8,6 +8,7 @@ SECTIONS
 
     .text : {
         _text_start = .;
+	KEEP(*(.start))
         *(.text*)
         _text_end = .;
     }
