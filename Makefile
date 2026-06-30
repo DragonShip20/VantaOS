@@ -8,7 +8,7 @@ IMG=disk.img
 
 CFLAGS=-m64 -ffreestanding -nostdlib -fno-pie -fno-common -Iinclude -std=gnu11
 LDFLAGS=-m elf_x86_64 -T linker.ld
-QEMUFLAGS=-drive format=raw,file=$(IMG) -vga std -display gtk,zoom-to-fit=on -full-screen -m 1G
+QEMUFLAGS=-drive format=raw,file=$(IMG) -vga std -display gtk,zoom-to-fit=on -full-screen -m 1G -debugcon stdio
 
 C_SOURCES := $(shell find kernel arch drivers lib mm fs net -name "*.c")
 C_OBJECTS := $(C_SOURCES:.c=.o)
@@ -28,7 +28,7 @@ boot.bin: boot/boot.asm
 # Bootloader stage 2
 entry.bin: boot/entry.asm
 	@$(ASM) -f bin $< -o $@
-	@truncate -s 2048 boot.bin
+	@truncate -s 2048 entry.bin
 
 # ASM -> OBJ
 %.o: %.asm
