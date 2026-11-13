@@ -140,6 +140,30 @@ void print_hex_u32(u32 v) {
     }
 }
 
+void dump_memory(u32 addr, u32 len) {
+
+    u8 *p = (u8*)addr;
+
+    for (u32 i = 0; i < len; i++) {
+        if ((i & 0xF) == 0) {
+            print("\n");
+            print_hex_u32(addr + i);
+            putc(':');
+            putc(' ');
+        }
+
+        u8 v = p[i];
+        u8 hi = (v >> 4) & 0xF;
+        u8 lo = v & 0xF;
+
+        putc(hi < 10 ? '0' + hi : 'A' + (hi - 10));
+        putc(lo < 10 ? '0' + lo : 'A' + (lo - 10));
+
+        putc(' ');
+    }
+
+    print("\n");
+}
 
 void print(const char *str) {
     while (*str) {

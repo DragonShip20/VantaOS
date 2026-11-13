@@ -32,6 +32,7 @@ int vesa_set_cursor(u32 x, u32 y);
 u8 parse_escape(u8 c);
 void vesa_upd_cursor(u32 x, u32 y);
 void print_hex_u32(u32 v);
+void dump_memory(u32 addr, u32 len);
 void print(const char *str);
 
 #endif
